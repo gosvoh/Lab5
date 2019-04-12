@@ -4,19 +4,19 @@ import java.util.Objects;
 
 public class Stick {
     private Hero owner;
-    private float weight;
+    private double weight;
     private StickType stickType;
 
     public Stick(StickType stickType) {
         this.stickType = stickType;
-        weight = stickType.getMinWeight() + (float) Math.random() * (stickType.getMaxWeight() - stickType.getMinWeight());
+        weight = stickType.getMinWeight() + Math.random() * (stickType.getMaxWeight() - stickType.getMinWeight());
     }
 
     public void setOwner(Hero owner) {
         this.owner = owner;
     }
 
-    public float getWeight() {
+    public double getWeight() {
         return weight;
     }
 
