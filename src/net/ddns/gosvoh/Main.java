@@ -1,14 +1,11 @@
 package net.ddns.gosvoh;
 
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    private final int WIDTH = 800, HEIGHT = 600;
-    Group root = new Group();
-
     public static void main(String[] args) {
         if (args.length == 0) {
             launch();
@@ -21,7 +18,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        final int WIDTH = 800, HEIGHT = 600;
+        Group group = new Group();
+        group.getChildren().add(new Button("Test"));
+
+        Scene scene = new Scene(group, WIDTH, HEIGHT);
         stage.setTitle("Lab 5");
         stage.setScene(scene);
         stage.show();

@@ -33,6 +33,11 @@ public class Game {
             } else break;
         } while (true);
 
+        if (heroes.isEmpty()) {
+            System.out.println("Героев нет!");
+            System.exit(0);
+        }
+
         System.out.println();
         System.out.println(planet.welcomeMessage());
         System.out.println(river.welcomeMessage());
@@ -114,7 +119,7 @@ public class Game {
         try {
             Thread.sleep(timeToWait * 1000);
         } catch (Exception e) {
-            return;
+            e.printStackTrace();
         }
 
         heroes.forEach(hero -> {
