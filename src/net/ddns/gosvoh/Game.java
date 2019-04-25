@@ -1,5 +1,6 @@
 package net.ddns.gosvoh;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,15 +8,6 @@ public class Game {
 
 
     public Game() {
-        class writeOnNewLine {
-            public writeOnNewLine() {
-                System.out.println();
-            }
-
-            public writeOnNewLine(String message) {
-                System.out.println(message);
-            }
-        }
 ////////////////////////////////   INITIALIZERS   /////////////////////////////////////////
         Planet planet = new Planet("Планета глупости");
         Planet.River river = planet.new River("Река глупости");
@@ -23,14 +15,21 @@ public class Game {
         Planet.Bridge.Sides side = Planet.Bridge.Sides.LEFT;
         ArrayList<Hero> heroes = new ArrayList<>();
 
-        System.out.println("Поприветствуем нашиъ героев! (Enter для подтверждения, Ctrl+D для выхода)");
+        System.out.print("Test: ");
+        System.out.println(ConsoleInput());
+
+        System.out.println("Поприветствуем наших героев! (Enter для подтверждения, END для выхода)");
+
         do {
             System.out.print("Введите имя героя: ");
             String heroNameIn = ConsoleInput();
 
             if (!heroNameIn.isEmpty()) {
-                heroes.add(new Hero(heroNameIn));
-            } else break;
+                if (heroNameIn.equals("END"))
+                    break;
+                else
+                    heroes.add(new Hero(heroNameIn));
+            }
         } while (true);
 
         if (heroes.isEmpty()) {
@@ -43,14 +42,12 @@ public class Game {
         System.out.println(river.welcomeMessage());
         System.out.println(bridge.welcomeMessage());
         System.out.println("Вы на " + side.getSideName() + " объекта " + bridge.getName());
-        System.out.println(heroes.size());
-
         heroes.forEach(hero -> hero.setSide(side));
 
         System.out.println();
         System.out.println("Давайте выберем палочки героев!");
         heroes.forEach(hero -> {
-            System.out.println("Выберите палочку герою:");
+            System.out.println("Выберите палочку герою " + hero.getName() + " : ");
             int iterator = 1;
             for (StickType st : StickType.values()) {
                 System.out.println(iterator + ") " + st.getName());
@@ -90,49 +87,63 @@ public class Game {
             hero.chooseStick(stickType);
         });
 
-        announcer.say("Начнём же игру!");
+        do {
+            System.out.println();
+            announcer.say("Начнём же игру!");
+            heroes.forEach(hero -> {
+                hero.getStick().calculateWeight();
+                try {
+                    hero.throwStick(river);
+                } catch (throwStickCheckedException e) {
+                    System.out.println(e.getMessage());
+                    announcer.say("Игра окончена! Не все игроки готовы!");
+                    return;
+                }
+            });
+            heroes.forEach(Hero::changeBridgeSide);
 
-        heroes.forEach(hero -> {
+            System.out.println();
+
+            double maxSpeed = Float.MAX_VALUE;
+            for (int i = 0; i < river.getSticks().length; i++) {
+                double currentStickSpeed = river.getSticks()[i].getWeight() / river.getSpeed();
+                if (maxSpeed > currentStickSpeed) {
+                    maxSpeed = currentStickSpeed;
+                    heroes.forEach(hero -> hero.isWinner(false));
+                    river.getSticks()[i].getOwner().isWinner(true);
+                }
+            }
+
+            heroes.forEach(hero -> {
+                if (hero.isWinner())
+                    hero.incrementWinsCounter();
+                else hero.incrementLoseCounter();
+            });
+
+            long timeToWait = (long) (river.getSpeed() - maxSpeed);
             try {
-                hero.throwStick(river);
-                hero.changeBridgeSide();
-            } catch (throwStickCheckedException e) {
-                new writeOnNewLine(e.getMessage());
-                announcer.say("Игра окончена! Не все игроки готовы!");
-                return;
+                Thread.sleep(timeToWait * 1000);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
 
-        System.out.println();
+            heroes.forEach(hero -> {
+                hero.removeStick(river);
+                hero.setSide(side);
+            });
 
-        double maxSpeed = Float.MAX_VALUE;
-        for (int i = 0; i < river.getSticks().length; i++) {
-            double currentStickSpeed = river.getSticks()[i].getWeight() / river.getSpeed();
-            if (maxSpeed > currentStickSpeed) {
-                maxSpeed = currentStickSpeed;
-                heroes.forEach(hero -> hero.isWinner(false));
-                river.getSticks()[i].getOwner().isWinner(true);
-            }
-        }
+            heroes.forEach(hero -> {
+                System.out.println(hero.getName() + ": Wins: " + hero.getWinsCounter() + " Loses: " + hero.getLoseCounter());
+                if (hero.getWinsOrLoses() > 0)
+                    System.out.println(" Общее количество побед: " + hero.getWinsOrLoses());
+                else System.out.println(" Общее количество проигрышей: " + Math.abs(hero.getWinsOrLoses()));
+            });
+        } while (continueGame());
+    }
 
-        long timeToWait = (long) (river.getSpeed() - maxSpeed);
-        try {
-            Thread.sleep(timeToWait * 1000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        heroes.forEach(hero -> {
-            hero.removeStick(river);
-            hero.setSide(side);
-        });
-
-        heroes.forEach(hero -> {
-            System.out.println(hero.getName() + ": Wins: " + hero.getWinsCounter() + " Loses: " + hero.getLoseCounter());
-            if (hero.getWinsOrLoses() > 0)
-                System.out.println(" Общее количество побед: " + hero.getWinsOrLoses());
-            else System.out.println(" Общее количество проигрышей: " + Math.abs(hero.getWinsOrLoses()));
-        });
+    private boolean continueGame() {
+        System.out.println("Продолжить игру?");
+        return ConsoleInput().toLowerCase().matches("y|yes");
     }
 
     private Humans announcer = new Humans() {
@@ -153,7 +164,6 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         if (scanner.hasNextLine())
             return scanner.nextLine();
-        scanner.close();
-        return "";
+        throw new RuntimeException("Ошибка ввода! Требуется перезапуск программы!");
     }
 }

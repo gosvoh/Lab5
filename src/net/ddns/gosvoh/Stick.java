@@ -9,7 +9,7 @@ public class Stick {
 
     public Stick(StickType stickType) {
         this.stickType = stickType;
-        weight = stickType.getMinWeight() + Math.random() * (stickType.getMaxWeight() - stickType.getMinWeight());
+        calculateWeight();
     }
 
     public void setOwner(Hero owner) {
@@ -24,9 +24,13 @@ public class Stick {
         return owner;
     }
 
+    public void calculateWeight() {
+        weight = stickType.getMinWeight() + Math.random() * (stickType.getMaxWeight() - stickType.getMinWeight());
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(owner, weight, stickType);
+        return Objects.hash(weight, stickType);
     }
 
     @Override
@@ -46,6 +50,7 @@ public class Stick {
         return "Stick{" +
                 "weight=" + weight +
                 ", stickType=" + stickType +
+                ", hash=" + hashCode() +
                 '}';
     }
 }

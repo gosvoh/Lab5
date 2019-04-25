@@ -20,6 +20,11 @@ public class Hero implements Humans {
         this.stick = new Stick(stickType);
     }
 
+    public Hero(String name, Stick stick) {
+        this.name = name;
+        this.stick = stick;
+    }
+
     public void routine(String routine) {
         System.out.println(this.name + " решил " + routine);
     }
@@ -65,6 +70,7 @@ public class Hero implements Humans {
         }
         this.stick.setOwner(this);
         river.addStick(stick);
+        System.out.println(this.name + " бросил палочку в " + river.getName());
     }
 
     public void removeStick(Planet.River river) {
@@ -108,6 +114,10 @@ public class Hero implements Humans {
 
     public int getWinsOrLoses() {
         return winsCounter - loseCounter;
+    }
+
+    public Stick getStick() {
+        return this.stick;
     }
 
     @Override

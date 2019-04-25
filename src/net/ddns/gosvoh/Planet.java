@@ -91,6 +91,10 @@ public class Planet extends Universe {
             return ("Под вами находится " + this.name);
         }
 
+        public String getName() {
+            return this.name;
+        }
+
         @Override
         public String toString() {
             return "River{" +

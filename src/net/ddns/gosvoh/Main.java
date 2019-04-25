@@ -4,16 +4,36 @@ import javafx.application.Application;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
 
 public class Main extends Application {
     public static void main(String[] args) {
         if (args.length == 0) {
             launch();
             //new Game();
-        } else if (args[0].matches("-cli"))
+        } else
+            switch (args[0]) {
+                case "-cli":
+                    new HeroesCollection();
+                    System.exit(0);
+                case "-game":
+                    new Game();
+                    System.exit(0);
+                default:
+                    launch(args);
+            }
+        if (args[0].matches("-game")) {
             new Game();
-        else
+            System.exit(0);
+        } else
             launch(args);
+
     }
 
     @Override
