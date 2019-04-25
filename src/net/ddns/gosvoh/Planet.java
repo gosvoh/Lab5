@@ -11,6 +11,11 @@ public class Planet extends Universe {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
     public String welcomeMessage() {
         return ("Добро пожаловать в " + this.name);
     }

@@ -13,12 +13,16 @@ import java.util.Scanner;
 
 /**
  * Класс для чтения данных в формате json
+ *
  * @author Vokhmin Aleksey
  * @version 1.0
  */
 public class JsonReader implements Closeable {
     private FileReader fileReader;
     private Scanner scanner;
+
+    public JsonReader() {
+    }
 
     public JsonReader(String fileName) throws IOException {
         fileReader = new FileReader(fileName);
@@ -28,10 +32,6 @@ public class JsonReader implements Closeable {
     public JsonReader(File file) throws IOException {
         fileReader = new FileReader(file);
         scanner = new Scanner(fileReader);
-    }
-
-    public JsonReader() throws IOException {
-
     }
 
     private String readAsJson() {
@@ -45,8 +45,19 @@ public class JsonReader implements Closeable {
         return new Gson().fromJson(json, Hero.class);
     }
 
+    public Planet readAsPlanet(String json) {
+        return new Gson().fromJson(json, Planet.class);
+    }
+
     public HashMap<Integer, Hero> readAsHashMapIntegerHero() {
-        Type type = new TypeToken<HashMap<Integer, Hero>>(){}.getType();
+        Type type = new TypeToken<HashMap<Integer, Hero>>() {
+        }.getType();
+        return new Gson().fromJson(readAsJson(), type);
+    }
+
+    public HashMap<Integer, Planet> readAsHashMapIntegerPlanet() {
+        Type type = new TypeToken<HashMap<Integer, Planet>>() {
+        }.getType();
         return new Gson().fromJson(readAsJson(), type);
     }
 

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static net.ddns.gosvoh.Utils.ConsoleInput;
+
 public class Game {
 
 
@@ -159,11 +161,4 @@ public class Game {
             return name;
         }
     };
-
-    private String ConsoleInput() {
-        Scanner scanner = new Scanner(System.in);
-        if (scanner.hasNextLine())
-            return scanner.nextLine();
-        throw new RuntimeException("Ошибка ввода! Требуется перезапуск программы!");
-    }
 }

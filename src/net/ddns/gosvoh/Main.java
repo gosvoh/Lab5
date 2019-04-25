@@ -4,13 +4,6 @@ import javafx.application.Application;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import com.google.gson.Gson;
-
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.io.FileNotFoundException;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -20,7 +13,7 @@ public class Main extends Application {
         } else
             switch (args[0]) {
                 case "-cli":
-                    new HeroesCollection();
+                    new PlanetCollection(PlanetCollection.tempFile).BeginWork();
                     System.exit(0);
                 case "-game":
                     new Game();

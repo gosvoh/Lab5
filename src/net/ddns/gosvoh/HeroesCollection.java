@@ -1,3 +1,4 @@
+/*
 package net.ddns.gosvoh;
 
 import com.google.gson.*;
@@ -7,6 +8,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 
+*/
 /**
  * Данный класс является классом-оболочкой для коллекций Hero и Stick, реализованном с помощью HashMap.
  *
@@ -14,7 +16,8 @@ import java.util.*;
  * @version 1.0
  * @see net.ddns.gosvoh.Hero
  * @see net.ddns.gosvoh.Stick
- */
+ *//*
+
 public class HeroesCollection {
     private HashMap<Integer, Hero> heroHashMap = new HashMap<>();
 
@@ -23,6 +26,7 @@ public class HeroesCollection {
             "/Desktop/temp.json");
     private final Date initDate = new Date();
     private int globalIterator;
+*/
 /*
     public HeroesCollection() {
         initDate.setTime(System.currentTimeMillis());
@@ -33,7 +37,8 @@ public class HeroesCollection {
 
         tempSave(heroHashMap);
     }
-*/
+*//*
+
 
     public HeroesCollection() {
         try {
@@ -82,10 +87,12 @@ public class HeroesCollection {
         }
     }
 
-    /**
+    */
+/**
      * Этот метод выводит в стандартный поток вывода все элементы коллекции в строковом представлении.
      * Команда: show
-     */
+     *//*
+
     public void show() {
         heroHashMap.forEach((h, s) -> System.out.println(h));
     }
@@ -119,3 +126,4 @@ public class HeroesCollection {
         );
     }
 }
+*/
