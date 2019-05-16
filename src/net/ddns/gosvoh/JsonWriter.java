@@ -9,14 +9,17 @@ import java.io.*;
 public class JsonWriter implements Closeable {
 
     private String fileName;
+    private File file;
     private FileWriter fileWriter;
 
     public JsonWriter(String fileName) throws IOException {
         this.fileName = fileName;
+        file = new File(fileName);
         fileWriter = new FileWriter(fileName);
     }
 
     public JsonWriter(File file) throws IOException {
+        this.file = file;
         fileWriter = new FileWriter(file);
     }
 
@@ -26,8 +29,15 @@ public class JsonWriter implements Closeable {
         fileWriter.write(gson.toJson(obj));
     }
 
+    public boolean isExists() {
+        return file != null || fileName != null;
+    }
     @Override
-    public void close() throws IOException {
-        fileWriter.close();
+    public void close() {
+        try {
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

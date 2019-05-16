@@ -1,10 +1,8 @@
 package net.ddns.gosvoh;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-import static net.ddns.gosvoh.Utils.ConsoleInput;
+import static net.ddns.gosvoh.Utils.Utils.ConsoleInput;
 
 public class Game {
 

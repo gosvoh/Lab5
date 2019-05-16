@@ -1,6 +1,6 @@
 package net.ddns.gosvoh;
 
-public abstract class Universe {
+public class Universe {
     private String name;
 
     public Universe(String name) {
@@ -9,6 +9,9 @@ public abstract class Universe {
 
     @Override
     public String toString() {
-        return this.name;
+        final StringBuffer sb = new StringBuffer("Universe{");
+        sb.append("name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

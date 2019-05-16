@@ -1,12 +1,10 @@
 package net.ddns.gosvoh;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -21,15 +19,14 @@ public class JsonReader implements Closeable {
     private FileReader fileReader;
     private Scanner scanner;
 
-    public JsonReader() {
-    }
+    //public JsonReader() {    }
 
-    public JsonReader(String fileName) throws IOException {
+    public JsonReader(String fileName) throws FileNotFoundException {
         fileReader = new FileReader(fileName);
         scanner = new Scanner(fileReader);
     }
 
-    public JsonReader(File file) throws IOException {
+    public JsonReader(File file) throws FileNotFoundException {
         fileReader = new FileReader(file);
         scanner = new Scanner(fileReader);
     }
@@ -45,8 +42,8 @@ public class JsonReader implements Closeable {
         return new Gson().fromJson(json, Hero.class);
     }
 
-    public Planet readAsPlanet(String json) {
-        return new Gson().fromJson(json, Planet.class);
+    public Universe readAsUniverse(String json) {
+        return new Gson().fromJson(json, Universe.class);
     }
 
     public HashMap<Integer, Hero> readAsHashMapIntegerHero() {
@@ -55,14 +52,18 @@ public class JsonReader implements Closeable {
         return new Gson().fromJson(readAsJson(), type);
     }
 
-    public HashMap<Integer, Planet> readAsHashMapIntegerPlanet() {
-        Type type = new TypeToken<HashMap<Integer, Planet>>() {
+    public HashMap<Integer, Universe> readAsHashMapIntegerUniverse() {
+        Type type = new TypeToken<HashMap<Integer, Universe>>() {
         }.getType();
         return new Gson().fromJson(readAsJson(), type);
     }
 
     @Override
-    public void close() throws IOException {
-        fileReader.close();
+    public void close() {
+        try {
+            fileReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -13,7 +13,7 @@ public class Main extends Application {
         } else
             switch (args[0]) {
                 case "-cli":
-                    new PlanetCollection(PlanetCollection.tempFile).BeginWork();
+                    new UniverseCollection(System.getenv("LAB5FILE")).BeginWork();
                     System.exit(0);
                 case "-game":
                     new Game();
