@@ -28,7 +28,7 @@ public class UniverseCollection {
     private Date initDate;
     private HashMap<Integer, Universe> universeHashMap = new HashMap<>();
     public static File mainFile = null,
-            tempFile = new File(System.getProperty("user.home") + "/Desktop/.temp.json");
+            tempFile = new File(System.getProperty("user.home") + "/.temp.json");
     private JsonReader jsonReader;
     private JsonWriter jsonWriter, tempJsonWriter;
 
